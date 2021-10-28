@@ -1,46 +1,12 @@
 package br.com.alura.bytebank
 
-import br.com.alura.bytebank.modelo.Endereco
-import java.lang.ClassCastException
-import java.lang.NumberFormatException
+import br.com.alura.bytebank.exception.SaldoInsuficienteException
+import br.com.alura.bytebank.teste.testaComportamentosConta
+import java.lang.Exception
+import kotlin.ClassCastException
 
 fun main() {
     println("início main")
-
-    //try-expression
-    //usar quando precisa pegar um valor de algum outra fonte
-    //exemplo abaixo uma string e preciso transformar em double
-    val entrada: String = "1"
-
-    val valorRecebido: Double? = try {
-        entrada.toDouble()
-    } catch (e: NumberFormatException){
-        println("Problema na conversão")
-        e.printStackTrace()
-        null
-    }
-
-    val valorComTaxa: Double? = if (valorRecebido != null){
-        valorRecebido + 0.1
-    } else{
-        null
-    }
-
-//    val valorComTaxa: Double? = when {
-//        valorRecebido != null -> {
-//            valorRecebido + 0.1
-//        }
-//        else -> {
-//            null
-//        }
-//    }
-
-    if(valorComTaxa!=null) {
-        println("Valor da taxa: $valorComTaxa")
-    } else {
-        println("Valor inválido")
-    }
-
     funcao1()
     println("fim main")
 }
@@ -49,9 +15,9 @@ fun funcao1(){
     println("início funcao1")
     try {
         funcao2()
-    } catch (e: ClassCastException){
+    } catch (e: SaldoInsuficienteException){
         e.printStackTrace()
-        println("ClassCastException foi pegada")
+        println("SaldoInsuficienteException foi pegada")
     }
 
     println("fim funcao1")
@@ -61,8 +27,7 @@ fun funcao2() {
     println("início funcao2")
     for (i in 1..5) {
         println(i)
-        val endereco = Any()
-        endereco as Endereco
+        throw SaldoInsuficienteException()
     }
     println("fim funcao2")
 }
